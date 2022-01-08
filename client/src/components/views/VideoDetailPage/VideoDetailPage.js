@@ -10,7 +10,7 @@ function VideoDetailPage(props) {
 
     const videoId = props.match.params.videoId
     const [VideoDetail, setVideoDetail] = useState([])
-    // const [CommentLists, setCommentLists] = useState([])
+    const [CommentLists, setCommentLists] = useState([])
     // const updateComment = (newComment) => {
     //     setCommentLists(CommentLists.concat(newComment))
     // }
@@ -30,15 +30,15 @@ function VideoDetailPage(props) {
                 }
             })
 
-        // Axios.post('/api/comment/getComments', variable)
-        //     .then(response => {
-        //         if (response.data.success) {
-        //             console.log('response.data.comments',response.data.comments)
-        //             setCommentLists(response.data.comments)
-        //         } else {
-        //             alert('Failed to get video Info')
-        //         }
-        //     })
+        Axios.post('/api/comment/getComments', variable)
+            .then(response => {
+                if (response.data.success) {
+                    console.log('response.data.comments',response.data.comments)
+                    setCommentLists(response.data.comments)
+                } else {
+                    alert('Failed to get video Info')
+                }
+            })
 
 
     }, [])
@@ -68,8 +68,8 @@ function VideoDetailPage(props) {
                             <div></div>
                         </List.Item>
 
-                        {/* Comments CommentLists={CommentLists} postId={Video._id} refreshFunction={updateComment} */}
-                        <Comment/>
+                        {/* Comments   refreshFunction={updateComment} */}
+                        <Comment CommentLists={CommentLists} postId={videoId}/>
 
                     </div>
                 </Col>
