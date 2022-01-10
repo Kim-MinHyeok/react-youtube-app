@@ -42,7 +42,9 @@ function Comment(props) {
             {/* Comment Lists  */}
 
             {props.commentLists && props.commentsLists.map((comment, index) => (
-                <SingleComment comment={comment} postId={videoId} />
+                (!comment.responseTo && 
+                    <SingleComment comment={comment} postId={videoId} />
+                )
             ))}
 
             {/* Root Comment Form */}
