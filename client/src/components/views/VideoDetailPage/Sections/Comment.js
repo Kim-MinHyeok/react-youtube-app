@@ -23,10 +23,12 @@ function Comment(props) {
             postId: videoId
         }
 
-        Axios.post('/api/commen/saveComment', variables)
+        Axios.post('/api/comment/saveComment', variables)
         .then(response => {
             if(response.data.success) {
                 console.log(response.data.result)
+                setcommentValue("")
+                props.refreshFunction(response.data.result)
             }else {
                 alert('Failed to save Comment.')
             }
@@ -43,7 +45,7 @@ function Comment(props) {
 
             {props.commentLists && props.commentsLists.map((comment, index) => (
                 (!comment.responseTo && 
-                    <SingleComment comment={comment} postId={videoId} />
+                    <SingleComment refreshFunction={refreshFunction} comment={comment} postId={videoId} />
                 )
             ))}
 

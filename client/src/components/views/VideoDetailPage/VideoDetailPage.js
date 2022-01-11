@@ -44,7 +44,9 @@ function VideoDetailPage(props) {
     }, [])
 
    
-
+    const refreshFunction = (newComment) => {
+        setComments(Comments.concat(newComment))
+    }
 
    
     if (VideoDetail.writer) {
@@ -69,7 +71,7 @@ function VideoDetailPage(props) {
                         </List.Item>
 
                         {/* Comments   refreshFunction={updateComment} */}
-                        <Comment commentLists={commentLists} postId={videoId}/>
+                        <Comment refreshFunction={refreshFunction} commentLists={commentLists} postId={videoId}/>
 
                     </div>
                 </Col>

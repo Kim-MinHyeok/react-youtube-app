@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
+import { useSelector} from 'react-redux';
 import { Comment, Avatar, Button, Input } from 'antd';
+import Axios from 'axios';
 
 const { TextArea } = Input;
 
 function SingleComment(props) {
+    const user = useSelector(state => state.user);
 
     const [OpenReply, setOpenReply] = useState(false)
     const [CommentValue, setCommentValue] = useState("")
@@ -14,21 +17,24 @@ function SingleComment(props) {
     const onSubmit = (event) => {
         event.preventDefault();
 
-        // const variables = {
-        //     content: CommentValue,
-        //     writer: user.userDate._id,
-        //     postId: props.postId,
-        //     responseTo:
-        // }
+        const variables = {
+            content: CommentValue,
+            writer: user.userDate._id,
+            postId: props.postId,
+            responseTo: props.comment._id
+        }
 
-        // Axios.post('/api/commen/saveComment', variables)
-        //     .then(response => {
-        //         if(response.data.success) {
-        //             console.log(response.data.result)
-        //         }else {
-        //             alert('Failed to save Comment.')
-        //         }
-        // })
+        Axios.post('/api/comment/saveComment', variables)
+            .then(response => {
+                if(response.data.success) {
+                    console.log(response.data.result)
+
+                    props.refreshFunction(response.data.result)
+
+                }else {
+                    alert('Failed to save Comment.')
+                }
+        })
     }
 
     const OnHandleChange = (event) => {
