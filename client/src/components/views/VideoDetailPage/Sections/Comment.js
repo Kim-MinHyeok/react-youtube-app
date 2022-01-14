@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Button, Input } from 'antd';
 import Axios from 'axios';
 import { useSelector} from 'react-redux';
-import SingleComment from './SingleComment'
+import SingleComment from './SingleComment';
+
 const { TextArea } = Input;
 
 function Comment(props) {
@@ -20,19 +21,18 @@ function Comment(props) {
         const variables = {
             content: commentValue,
             writer: user.userData._id,
-            postId: videoId
+            postId: props.videoId
         }
 
         Axios.post('/api/comment/saveComment', variables)
-        .then(response => {
-            if(response.data.success) {
-                console.log(response.data.result)
-                setcommentValue("")
-                props.refreshFunction(response.data.result)
-            }else {
-                alert('Failed to save Comment.')
-            }
-        })
+            .then(response => {
+                if(response.data.success) {
+                    console.log(response.data.result)
+                    props.refreshFunction(response.data.result)
+                }else {
+                    alert('Failed to save Comment.')
+                }
+            })
     }
 
     return (
@@ -43,16 +43,16 @@ function Comment(props) {
 
             {/* Comment Lists  */}
 
-            {props.commentLists && props.commentsLists.map((comment, index) => (
+            {props.commentLists && props.commentLists.map((comment, index) => (
                 (!comment.responseTo && 
-                    <SingleComment refreshFunction={refreshFunction} comment={comment} postId={videoId} />
+                    <SingleComment comment={comment} refreshFunction={props.refreshFunction} postId={props.videoId} />
                 )
             ))}
 
             {/* Root Comment Form */}
 
             <form style={{ display: 'flex' }} onSubmit={onSubmit}>
-                <TextArea
+                <textarea
                     style={{ width: '100%', borderRadius: '5px' }}
                     onChange={handleClick}
                     value={commentValue}

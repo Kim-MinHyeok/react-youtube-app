@@ -9,15 +9,14 @@ import Comment from './Sections/Comment';
 function VideoDetailPage(props) {
 
     const videoId = props.match.params.videoId
+    const variable = { videoId: videoId }
+
     const [VideoDetail, setVideoDetail] = useState([])
     const [Comments, setComments] = useState([])
     // const updateComment = (newComment) => {
     //     setCommentLists(CommentLists.concat(newComment))
     // }
 
-    const variable = {
-        videoId: videoId
-    }
 
     useEffect(() => {
         Axios.post('/api/video/getVideoDetail', variable)
@@ -70,8 +69,8 @@ function VideoDetailPage(props) {
                             <div></div>
                         </List.Item>
 
-                        {/* Comments   refreshFunction={updateComment} */}
-                        <Comment refreshFunction={refreshFunction} commentLists={commentLists} postId={videoId}/>
+                        {/* Comments */}
+                        <Comment refreshFunction={refreshFunction} commentLists={Comments} postId={videoId}/>
 
                     </div>
                 </Col>

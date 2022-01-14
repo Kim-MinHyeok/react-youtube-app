@@ -14,12 +14,20 @@ function SingleComment(props) {
         setOpenReply(!OpenReply)
     }
 
+    const onHandleChange = (event) => {
+        setCommentValue(event.currentTarget.value)
+    }
+    
+    const actions = [
+        <span onClick={onClickReplyOpen} key="comment-basic-reply-to">Reply to</span>
+    ]
+
     const onSubmit = (event) => {
         event.preventDefault();
 
         const variables = {
             content: CommentValue,
-            writer: user.userDate._id,
+            writer: user.userData._id,
             postId: props.postId,
             responseTo: props.comment._id
         }
@@ -28,7 +36,7 @@ function SingleComment(props) {
             .then(response => {
                 if(response.data.success) {
                     console.log(response.data.result)
-
+                    setCommentValue("")
                     props.refreshFunction(response.data.result)
 
                 }else {
@@ -36,14 +44,6 @@ function SingleComment(props) {
                 }
         })
     }
-
-    const OnHandleChange = (event) => {
-        setCommentValue(event.currentTarget.CommentValue)
-    }
-
-    const actions = [
-        <span onClick={onClickReplyOpen} key="comment-basic-reply-to">Reply to</span>
-    ]
 
     return (
         <div>
@@ -56,14 +56,14 @@ function SingleComment(props) {
 
             {OpenReply &&
                 <form style={{ display: 'flex' }} onSubmit={onSubmit}>
-                    <TextArea
+                    <textarea
                         style={{ width: '100%', borderRadius: '5px' }}
-                        onChange={OnHandleChange}
+                        onChange={onHandleChange}
                         value={CommentValue}
                         placeholder="write some comments"
                     />
                     <br />
-                    <Button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>Submit</Button>
+                    <button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>Submit</button>
                 </form>
             }
         
