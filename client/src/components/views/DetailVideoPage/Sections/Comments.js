@@ -22,16 +22,20 @@ function Comments(props) {
             writer: user.userData._id,
             postId: props.postId
         }
+        if (user.userData && !user.userData.isAuth) {
+            alert('로그인이 필요합니다.')
+        } else {
+            axios.post('/api/comment/saveComment', variables)
+                .then(response => {
+                    if (response.data.success) {
+                        setComment("")
+                        props.refreshFunction(response.data.result)
+                    } else {
+                        alert('Failed to save Comment')
+                    }
+                })
 
-        axios.post('/api/comment/saveComment', variables)
-            .then(response => {
-                if (response.data.success) {
-                    setComment("")
-                    props.refreshFunction(response.data.result)
-                } else {
-                    alert('Failed to save Comment')
-                }
-            })
+        }
     }
 
     return (

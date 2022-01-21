@@ -28,16 +28,20 @@ function SingleComment(props) {
         }
 
 
-        Axios.post('/api/comment/saveComment', variables)
-            .then(response => {
-                if (response.data.success) {
-                    setCommentValue("")
-                    setOpenReply(!OpenReply)
-                    props.refreshFunction(response.data.result)
-                } else {
-                    alert('Failed to save Comment')
-                }
-            })
+        if (user.userData && !user.userData.isAuth) {
+            alert('로그인이 필요합니다.')
+        } else {
+            Axios.post('/api/comment/saveComment', variables)
+                .then(response => {
+                    if (response.data.success) {
+                        setCommentValue("")
+                        setOpenReply(!OpenReply)
+                        props.refreshFunction(response.data.result)
+                    } else {
+                        alert('Failed to save Comment')
+                    }
+                })
+        }
     }
 
     const actions = [
